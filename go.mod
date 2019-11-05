@@ -3,6 +3,7 @@ module github.com/wason7y/gin-blog
 go 1.13
 
 require (
+	github.com/astaxie/beego v1.12.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-ini/ini v1.49.0
