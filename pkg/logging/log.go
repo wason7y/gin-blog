@@ -68,5 +68,6 @@ func setPrefix(level Level) {
 	} else {
 		logPrefix = fmt.Sprintf("[%s]", levelFlags[level])
 	}
+
 	logger.SetPrefix(logPrefix)
 }
