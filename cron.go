@@ -8,7 +8,7 @@ import "github.com/wason7y/gin-blog/models"
 
 import "time"
 
-func main() {
+func main1() {
 	log.Println("starting...")
 
 	c := cron.New()

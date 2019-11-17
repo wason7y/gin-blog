@@ -9,19 +9,26 @@ import (
 	"os/signal"
 	"time"
 
+	"github.com/wason7y/gin-blog/models"
 	"github.com/wason7y/gin-blog/routers"
 
+	"github.com/wason7y/gin-blog/pkg/logging"
 	"github.com/wason7y/gin-blog/pkg/setting"
 )
 
 func main() {
+
+	setting.Setup()
+	models.Setup()
+	logging.Setup()
+
 	router := routers.InitRouter()
 
 	s := &http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.HTTPPort),
+		Addr:           fmt.Sprintf(":%d", setting.ServerSetting.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.ReadTimeout,
-		WriteTimeout:   setting.WriteTimeout,
+		ReadTimeout:    setting.ServerSetting.ReadTimeout,
+		WriteTimeout:   setting.ServerSetting.WriteTimeout,
 		MaxHeaderBytes: 1 << 20,
 	}
 

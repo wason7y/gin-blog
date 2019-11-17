@@ -3,6 +3,7 @@ module github.com/wason7y/gin-blog
 go 1.13
 
 require (
+	cloud.google.com/go v0.37.4
 	github.com/EDDYCJY/go-gin-example v0.0.0-20191007083155-a98c25f2172a
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.0
