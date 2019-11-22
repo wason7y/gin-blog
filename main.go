@@ -12,15 +12,21 @@ import (
 	"github.com/wason7y/gin-blog/models"
 	"github.com/wason7y/gin-blog/routers"
 
+	"github.com/wason7y/gin-blog/pkg/gredis"
 	"github.com/wason7y/gin-blog/pkg/logging"
 	"github.com/wason7y/gin-blog/pkg/setting"
+	"github.com/wason7y/gin-blog/pkg/util"
 )
 
-func main() {
-
+func init() {
 	setting.Setup()
 	models.Setup()
 	logging.Setup()
+	gredis.Setup()
+	util.Setup()
+}
+
+func main() {
 
 	router := routers.InitRouter()
 
