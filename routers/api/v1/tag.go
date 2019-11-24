@@ -8,6 +8,8 @@ import (
 	"github.com/unknwon/com"
 	"github.com/wason7y/gin-blog/pkg/app"
 	"github.com/wason7y/gin-blog/pkg/e"
+	"github.com/wason7y/gin-blog/pkg/export"
+	"github.com/wason7y/gin-blog/pkg/logging"
 	"github.com/wason7y/gin-blog/pkg/setting"
 	"github.com/wason7y/gin-blog/pkg/util"
 	"github.com/wason7y/gin-blog/service/tag_service"
@@ -181,6 +183,61 @@ func DeleteTag(c *gin.Context) {
 	}
 	if err := tagService.Delete(); err != nil {
 		appG.Response(http.StatusInternalServerError, e.ERROR_DELETE_TAG_FAIL, nil)
+		return
+	}
+	appG.Response(http.StatusOK, e.SUCCESS, nil)
+}
+
+// @Summary 导出excel
+// @Produce  json
+// @Param name query string false "Name"
+// @Param state query int false "State"
+// @success 200 {string} string "{"code":200,"msg":"ok"}"
+// @Router /api/v1/tags/export [post]
+func ExportTag(c *gin.Context) {
+	appG := app.Gin{C: c}
+	name := c.PostForm("name")
+	state := -1
+	if arg := c.PostForm("state"); arg != "" {
+		state = com.StrTo(arg).MustInt()
+	}
+	tagService := tag_service.Tag{
+		Name:  name,
+		State: state,
+	}
+
+	filename, err := tagService.Export()
+	if err != nil {
+		appG.Response(http.StatusOK, e.ERROR_EXPORT_TAG_FAIL, nil)
+		return
+	}
+
+	appG.Response(http.StatusOK, e.SUCCESS, map[string]string{
+		"export_url":      export.GetExcelFullUrl(filename),
+		"export_save_url": export.GetExcelPath() + filename,
+	})
+
+}
+
+// @Summary Import article tag
+// @Produce  json
+// @Param file body file true "Excel File"
+// @success 200 {string} string "{"code":200,"msg":"ok"}"
+// @Router /api/v1/tags/import [post]
+func ImportTag(c *gin.Context) {
+	appG := app.Gin{C: c}
+	file, _, err := c.Request.FormFile("file")
+	if err != nil {
+		logging.Warn(err)
+		appG.Response(http.StatusInternalServerError, e.ERROR, nil)
+		return
+	}
+
+	tagService := tag_service.Tag{}
+	err = tagService.Import(file)
+	if err != nil {
+		logging.Warn(err)
+		appG.Response(http.StatusInternalServerError, e.ERROR_IMPORT_TAG_FAIL, nil)
 		return
 	}
 	appG.Response(http.StatusOK, e.SUCCESS, nil)
