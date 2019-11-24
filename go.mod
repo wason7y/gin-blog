@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	cloud.google.com/go v0.37.4
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751
 	github.com/astaxie/beego v1.12.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
@@ -20,6 +21,7 @@ require (
 	github.com/robfig/cron v1.2.0
 	github.com/swaggo/gin-swagger v1.2.0
 	github.com/swaggo/swag v1.6.3
+	github.com/tealeg/xlsx v1.0.5
 	github.com/ugorji/go v1.1.7 // indirect
 	github.com/unknwon/com v1.0.1
 	golang.org/x/net v0.0.0-20191112182307-2180aed22343 // indirect
